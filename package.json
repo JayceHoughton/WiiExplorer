@@ -1,0 +1,14 @@
+{
+  "name": "explorerproject",
+  "version": "1.0.0",
+  "description": "A File Explorer",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "Jayce",
+  "license": "ISC",
+  "dependencies": {
+    "electron": "^4.1.0"
+  }
+}
