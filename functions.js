@@ -119,7 +119,7 @@ function init() {
     baseDir = baseDirectory()
     if(baseDir !== 1)
     {
-        makeButtons(baseDir)
+        //makeButtons(baseDir)
     }
     else {
         console.log("Failed to initiazlie.")
