@@ -15,6 +15,21 @@ wiiGrd.addColorStop(0.000, 'rgba(239, 241, 242, 1.000)');
 wiiGrd.addColorStop(0.500, 'rgba(255, 255, 255, 1.000)');
 wiiGrd.addColorStop(1.000, 'rgba(244, 244, 244, 1.000)');
 
+// Create gradient
+barGrd = ctx.createLinearGradient(150.000, 0.000, 150.000, 300.000);
+      
+// Add colors
+barGrd.addColorStop(0.000, 'rgba(111, 111, 114, 1.000)');
+barGrd.addColorStop(0.500, 'rgba(255, 255, 255, 1.000)');
+barGrd.addColorStop(1.000, 'rgba(127, 127, 127, 1.000)');
+
+// Create gradient
+buttonGrd = ctx.createRadialGradient(66.900, 66.900, 0.000, 150.000, 150.000, 150.000);
+      
+// Add colors
+buttonGrd.addColorStop(0.464, 'rgba(255, 255, 255, 1.000)');
+buttonGrd.addColorStop(1.000, 'rgba(229, 229, 229, 1.000)');
+
 //Drawing Functions
 function roundedRectangle(x, y, width, height, radius, ctx) {
     ctx.beginPath()
@@ -65,4 +80,49 @@ ctx.strokeStyle = "#00ccfe"
 ctx.stroke()
 ctx.fill()
 
+//Drawing left button wrapper
+ctx.beginPath()
+ctx.lineWidth = 3
+ctx.moveTo(canvas.width, channelY + 20)
+ctx.lineTo(canvas.width - 100, channelY + 20)
+ctx.bezierCurveTo((canvas.width - 100) - 100, channelY + 20, (canvas.width - 100) - 100, channelY + 130, canvas.width - 100, channelY + 130)
+ctx.lineTo(canvas.width, channelY + 130)
+ctx.closePath()
+ctx.strokeStyle = barGrd
+ctx.stroke()
 
+//Drawing right button wrapper
+ctx.beginPath()
+ctx.lineWidth = 3
+ctx.moveTo(0, channelY + 20)
+ctx.lineTo(0 + 100, channelY + 20)
+ctx.bezierCurveTo((0 + 100) + 100, channelY + 20, (0 + 100) + 100, channelY + 130, 0 + 100, channelY + 130)
+ctx.lineTo(0, channelY + 130)
+ctx.closePath()
+ctx.strokeStyle = barGrd
+ctx.stroke()
+
+//Drawing left button wrapper
+ctx.beginPath()
+ctx.arc(120, channelY + 75, 45, 0, 2 * Math.PI)
+ctx.strokeStyle = "#00ccfe"
+ctx.fillStyle = buttonGrd
+ctx.fill()
+ctx.stroke()
+
+//Drawing right button wrapper
+ctx.beginPath()
+ctx.arc(canvas.width - 120, channelY + 75, 45, 0, 2 * Math.PI)
+ctx.strokeStyle = "#00ccfe"
+ctx.fillStyle = buttonGrd
+ctx.fill()
+ctx.stroke()
+
+//Drawing time on the menu
+date = new Date()
+
+ctx.font = "60px Arial"
+ctx.fillStyle = "#000000"
+dateString = date.getDay() + " " + date.getMonth() + "/" + date.getFullYear()
+console.log(date.getDay() + " and " + date.getMonth() + " and " + date.getFullYear())
+ctx.fillText(dateString, 350, channelY + 100)
