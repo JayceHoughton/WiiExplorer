@@ -32,6 +32,8 @@ buttonGrd.addColorStop(1.000, 'rgba(229, 229, 229, 1.000)');
 
 //Drawing Functions
 function roundedRectangle(x, y, width, height, radius, ctx) {
+    ctx.save()
+
     ctx.beginPath()
     ctx.lineWidth = 3
     ctx.moveTo(x + radius, y)
@@ -46,11 +48,12 @@ function roundedRectangle(x, y, width, height, radius, ctx) {
     ctx.closePath()
     ctx.strokeStyle = "#808080"
     ctx.stroke()
+
 }
 
 //Drawing Channels
 channelX = 50
-channelY = 0
+channelY = 5
 for(i = 0; i < 3; i++)
 {
     for(j = 0; j < 4; j++)
@@ -65,15 +68,15 @@ for(i = 0; i < 3; i++)
 //Drawing bottom Bar
 ctx.beginPath()
 ctx.lineWidth = 8
-ctx.moveTo(0, channelY)
-ctx.lineTo(150, channelY)
-ctx.bezierCurveTo(150 + 50, channelY, 300 - 50, channelY + 50, 300, channelY + 50)
-ctx.lineTo(canvas.width - 300, channelY + 50)
-ctx.bezierCurveTo((canvas.width - 300) + 50, channelY + 50, (canvas.width - 150) - 50, channelY, canvas.width - 150, channelY)
-ctx.lineTo(canvas.width, channelY)
+ctx.moveTo(0, 380)
+ctx.lineTo(150, 380)
+ctx.bezierCurveTo(150 + 50, 380, 300 - 50, 380 + 50, 300, 380 + 50)
+ctx.lineTo(canvas.width - 300, 380 + 50)
+ctx.bezierCurveTo((canvas.width - 300) + 50, 380 + 50, (canvas.width - 150) - 50, 380, canvas.width - 150, 380)
+ctx.lineTo(canvas.width, 380)
 ctx.lineTo(canvas.width, canvas.height)
 ctx.lineTo(0, canvas.height)
-ctx.lineTo(0, channelY)
+ctx.lineTo(0, 380)
 ctx.closePath()
 ctx.fillStyle = wiiGrd;
 ctx.strokeStyle = "#00ccfe"
@@ -83,10 +86,10 @@ ctx.fill()
 //Drawing left button wrapper
 ctx.beginPath()
 ctx.lineWidth = 3
-ctx.moveTo(canvas.width, channelY + 20)
-ctx.lineTo(canvas.width - 100, channelY + 20)
-ctx.bezierCurveTo((canvas.width - 100) - 100, channelY + 20, (canvas.width - 100) - 100, channelY + 130, canvas.width - 100, channelY + 130)
-ctx.lineTo(canvas.width, channelY + 130)
+ctx.moveTo(canvas.width, 380 + 20)
+ctx.lineTo(canvas.width - 100, 380 + 20)
+ctx.bezierCurveTo((canvas.width - 100) - 100, 380 + 20, (canvas.width - 100) - 100, 380 + 130, canvas.width - 100, 380 + 130)
+ctx.lineTo(canvas.width, 380 + 130)
 ctx.closePath()
 ctx.strokeStyle = barGrd
 ctx.stroke()
@@ -94,17 +97,17 @@ ctx.stroke()
 //Drawing right button wrapper
 ctx.beginPath()
 ctx.lineWidth = 3
-ctx.moveTo(0, channelY + 20)
-ctx.lineTo(0 + 100, channelY + 20)
-ctx.bezierCurveTo((0 + 100) + 100, channelY + 20, (0 + 100) + 100, channelY + 130, 0 + 100, channelY + 130)
-ctx.lineTo(0, channelY + 130)
+ctx.moveTo(0, 380 + 20)
+ctx.lineTo(0 + 100, 380 + 20)
+ctx.bezierCurveTo((0 + 100) + 100, 380 + 20, (0 + 100) + 100, 380 + 130, 0 + 100, 380 + 130)
+ctx.lineTo(0, 380 + 130)
 ctx.closePath()
 ctx.strokeStyle = barGrd
 ctx.stroke()
 
 //Drawing left button wrapper
 ctx.beginPath()
-ctx.arc(120, channelY + 75, 45, 0, 2 * Math.PI)
+ctx.arc(120, 380 + 75, 45, 0, 2 * Math.PI)
 ctx.strokeStyle = "#00ccfe"
 ctx.fillStyle = buttonGrd
 ctx.fill()
@@ -112,17 +115,25 @@ ctx.stroke()
 
 //Drawing right button wrapper
 ctx.beginPath()
-ctx.arc(canvas.width - 120, channelY + 75, 45, 0, 2 * Math.PI)
+ctx.arc(canvas.width - 120, 380 + 75, 45, 0, 2 * Math.PI)
 ctx.strokeStyle = "#00ccfe"
 ctx.fillStyle = buttonGrd
 ctx.fill()
 ctx.stroke()
 
 //Drawing time on the menu
-date = new Date()
-
-ctx.font = "60px Arial"
-ctx.fillStyle = "#000000"
-dateString = date.getDay() + " " + date.getMonth() + "/" + date.getFullYear()
-console.log(date.getDay() + " and " + date.getMonth() + " and " + date.getFullYear())
-ctx.fillText(dateString, 350, channelY + 100)
+//Commented out, will make the clock HTML
+/*function clock() {
+    date = new Date()
+    ctx.font = "60px Arial"
+    ctx.fillStyle = "#000000"
+    month = Number(date.getMonth()) + 1
+    year = date.getFullYear().toString().substr(2, 2)
+    dayArr = ["Sun", "Mon", "Tue", "Wed", "Thurs", "Fri", "Sat"]
+    dateString = dayArr[date.getDay()] + " " + month + "/" + year
+    ctx.fillText(dateString, 350, 380 + 100)
+    timeString = date.getHours() + ":" + date.getMinutes()
+    ctx.fillText(timeString, 450, 380 + 30)
+}
+clock()
+setInterval(clock, 1000)*/

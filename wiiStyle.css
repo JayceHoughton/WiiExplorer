@@ -3,7 +3,7 @@ html, body
     height: 100%;
     width: 100%;
     margin: 0;
-    white-space: nowrap;
+    overflow-x: hidden;
 }
 
 #wiiCanvas
@@ -11,4 +11,98 @@ html, body
     position: absolute;
     width: "100%";
     height: "100%";
+}
+button, cavnas {
+    position: relative;
+}
+img
+{
+    z-index: 1;
+}
+.staticImage
+{
+    width: 193px;
+    border-radius: 25px;
+    filter: brightness(200%)
+}
+button
+{
+    padding: 0;
+    border: none;
+    z-index: 2;
+    -webkit-transition-duration: 0.5s;
+    transition-duration: 0.5s;
+}
+.wiiButton
+{
+    height: 109px;
+    width: 200px;
+    border-radius: 25px;
+}
+.wiiButton:focus
+{
+    outline: 0;
+}
+.nextButton
+{
+    
+    border-top: 25px solid transparent;
+    border-left: 30px solid #00ccfe;
+    border-bottom: 25px solid transparent;
+    background-color: transparent;
+    outline: none;
+    left: 960px;
+    top: 160px;
+}
+.nextButton:hover {
+    border-left: 30px solid #003bfe;
+    transform: skewX(-20deg)
+}
+.backButton
+{
+    border-top: 25px solid transparent;
+    border-right: 30px solid #00ccfe;
+    border-bottom: 25px solid transparent;
+    background-color: transparent;
+    outline: none;
+    left: 0px;
+    top: 160px;
+}
+.backButton:hover {
+    border-right: 30px solid #003bfe;
+    transform: skewX(10deg)
+    
+}
+.superBack {
+    left: 832px;
+    top: 413px;
+    border-radius: 85px;
+    height: 85px;
+    width: 85px;
+    background: url("back.JPG") -7px;
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24);
+}
+.superBack:active {
+    transform: translateY(2px);
+    outline: 0;
+}
+.superBack:focus {
+    outline: 0;
+}
+
+canvas
+{
+    z-index: 0;
+}
+
+#wiiBack
+{
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: -100;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    
 }

@@ -38,8 +38,13 @@ function dirDown(currDir) {
     try {
         absolutePath = path.resolve(newDir);
         correctedPath = path.normalize(absolutePath);
+        if(correctedPath === undefined)
+        {
+            return 1;
+        }
         dir = fs.readdirSync(correctedPath);
         FileSystem.currentDirectory = correctedPath;
+        console.log(correctedPath)
         return dir;
 
     } catch(err) {
@@ -61,52 +66,159 @@ function baseDirectory() {
 
 //Temporary function potentially for creating buttons on page.
 function makeButtons(dir) {
-    for(i = 0; i < dir.length; i++)
+    //for(i = 0; i < dir.length; i++)
+    lessThan = dir.length
+    nextBool = dir.length - 12
+    if(dir.length > 12)
+    {
+        lessThan = 12
+    }
+    butLeft = 50;
+    butTop = 5;
+    for(i = 0; i < lessThan; i++)
     {
         newDir = dir[i].toString()
         button = document.createElement('button')
         button.value = newDir
         button.innerHTML = newDir
+        button.style.position = "absolute"
+        if(i !== 0 && i % 4 == 0)
+        {
+            butTop += 125
+            butLeft = 50
+        }
+        button.style.left = (butLeft) + "px"
+        button.style.top = (butTop) + "px"
+        button.className = "wiiButton"
         button.onclick = function() {
-            replaceButtons(dirUp(FileSystem.currentDirectory, this.value))
+            replaceButtons(dirUp(FileSystem.currentDirectory, this.value), 0)
         }
         document.getElementById("buttons").appendChild(button)
+        butLeft += 225
     }
-    if(FileSystem.currentDirectory !== path.normalize(path.resolve('/')))
+    butLeft = 53
+    butTop = 5
+    for(k = 0; k < 12; k++)
     {
+        image = document.createElement("IMG")
+        image.style.position = "absolute"
+        image.src = "static.gif"
+        if(k !== 0 && k % 4 == 0)
+        {
+            butTop += 125
+            butLeft = 53
+        }
+        image.style.left = (butLeft) + "px"
+        image.style.top = (butTop) + "px"
+        image.className = "staticImage"
+        document.getElementById("buttons").appendChild(image)
+        butLeft += 225
+    }
+    if(nextBool > 0)
+    {
+        temp = i
         button = document.createElement('button')
-        button.innerHTML = "Back"
+        button.style.position = "absolute"
+        button.className = "nextButton"
         button.onclick = function() {
-            replaceButtons(dirDown(FileSystem.currentDirectory))
+            console.log(temp)
+            replaceButtons(dir, temp)
         }
         document.getElementById("buttons").appendChild(button)
     }
 }
 
 //Async function to place the buttons, waits for buttons to be made first
-async function replaceButtons(dir) {
+async function replaceButtons(dir, pos) {
+    if(dir === 1)
+    {
+        return 1;
+    }
+    nextBool = dir.length - pos - 12
     oldNodes = document.getElementById("buttons")
     while(oldNodes.firstChild)
     {
         oldNodes.removeChild(oldNodes.firstChild);
     }
-    for(i = 0; i < dir.length; i++)
+    lessThan = dir.length
+    if(dir.length - pos > 12)
+    {
+        lessThan = pos + 12
+    }
+    console.log(lessThan)
+    butLeft = 50;
+    butTop = 5;
+    //for(i = 0; i < dir.length; i++)
+    j = 0
+    for(i = pos; i < lessThan; i++)
     {
         newDir = dir[i].toString()
         button = document.createElement('button')
         button.value = newDir
         button.innerHTML = newDir
+        button.style.position = "absolute"
+        if(j !== 0 && j % 4 == 0)
+        {
+            butTop += 125
+            butLeft = 50
+        }
+        button.style.left = (butLeft) + "px"
+        button.style.top = (butTop) + "px"
+        button.className = "wiiButton"
         button.onclick = function() {
-            replaceButtons(dirUp(FileSystem.currentDirectory, this.value))
+            replaceButtons(dirUp(FileSystem.currentDirectory, this.value), 0)
+        }
+        document.getElementById("buttons").appendChild(button)
+        butLeft += 225
+        j++
+    }
+    butLeft = 53
+    butTop = 5
+    for(k = 0; k < 12; k++)
+    {
+        image = document.createElement("IMG")
+        image.style.position = "absolute"
+        image.src = "static.gif"
+        if(k !== 0 && k % 4 == 0)
+        {
+            butTop += 125
+            butLeft = 53
+        }
+        image.style.left = (butLeft) + "px"
+        image.style.top = (butTop) + "px"
+        image.className = "staticImage"
+        document.getElementById("buttons").appendChild(image)
+        butLeft += 225
+    }
+    if(nextBool > 0)
+    {
+        temp = i
+        button = document.createElement('button')
+        button.style.position = "absolute"
+        button.className = "nextButton"
+        button.onclick = function() {
+            console.log(temp)
+            replaceButtons(dir, temp)
+        }
+        document.getElementById("buttons").appendChild(button)
+    }
+    if(pos >= 12)
+    {
+        button = document.createElement('button')
+        button.style.position = "absolute"
+        button.className = "backButton"
+        button.onclick = function() {
+            replaceButtons(dir, pos-12)
         }
         document.getElementById("buttons").appendChild(button)
     }
     if(FileSystem.currentDirectory !== path.normalize(path.resolve('/')))
     {
         button = document.createElement('button')
-        button.innerHTML = "Back"
+        button.style.position = "absolute"
+        button.className = "superBack"
         button.onclick = function() {
-            replaceButtons(dirDown(FileSystem.currentDirectory))
+            replaceButtons(dirDown(FileSystem.currentDirectory), 0)
         }
         document.getElementById("buttons").appendChild(button)
     }
@@ -119,7 +231,7 @@ function init() {
     baseDir = baseDirectory()
     if(baseDir !== 1)
     {
-        //makeButtons(baseDir)
+        makeButtons(baseDir)
     }
     else {
         console.log("Failed to initiazlie.")
