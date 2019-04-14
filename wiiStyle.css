@@ -4,6 +4,7 @@ html, body
     width: 100%;
     margin: 0;
     overflow-x: hidden;
+    cursor: url("wii-open.cur"), default;
 }
 
 #wiiCanvas
@@ -14,6 +15,19 @@ html, body
 }
 button, cavnas {
     position: relative;
+    cursor: url("Wii\ Cursor.cur")
+}
+p
+{
+    z-index: 1;
+    word-break: break-all;
+}
+.infoText {
+    left: 345px;
+    top: 450px;
+    font-family: Impact;
+    color: gray;
+    font-size: 10px;
 }
 img
 {
@@ -38,6 +52,7 @@ button
     z-index: 2;
     -webkit-transition-duration: 0.5s;
     transition-duration: 0.5s;
+    cursor: url("Wii\ Cursor.cur"), default;
 }
 .wiiButton
 {
@@ -86,6 +101,38 @@ button
     background: url("FileChannel.jpg");
     background-size: 200px 120px;
     background-position: center;
+}
+.folderButton {
+    height: 109px;
+    width: 200px;
+    font-family: impact;
+    font-size: 20px;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    padding: 5px;
+    border-radius: 25px;
+    background: url("folderIcon.jpg");
+    background-size: 200px 120px;
+    background-position: center;
+}
+.folderButton:focus {
+    outline: 0;
+}
+.fileButton {
+    height: 109px;
+    width: 200px;
+    font-family: impact;
+    font-size: 20px;
+    color: rgba(39, 197, 236, 0.918);
+    text-align: left;
+    padding: 5px;
+    border-radius: 25px;
+    background: url("fileIcon.jpg");
+    background-size: 200px 120px;
+    background-position: center;
+}
+.fileButton:focus {
+    outline: 0;
 }
 .superBack {
     left: 832px;

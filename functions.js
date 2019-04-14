@@ -16,6 +16,11 @@ let FileSystem = {
     currentDirectory: "0"
 };
 
+function sortDirectory(dir) {
+    dir.sort(function(a, b) {
+        return fs.statSync(dir + a).size - fs.statSync(dir + b).size
+    })
+}
 //Takes current director and the name of the directory you want to move to and joins them
 //Returns 1 if error/likely the directory doesn't exist or it isn't a directory
 function dirUp(currDir, whatDir) {
@@ -68,6 +73,16 @@ function baseDirectory() {
 
 //Temporary function potentially for creating buttons on page.
 function makeButtons(dir) {
+
+    createImportantChannels()
+
+    fileInfo = document.createElement("P")
+    fileInfo.style.position = "absolute"
+    fileInfo.className = "infoText"
+    fileInfo.id = "info"
+    fileInfo.innerHTML = "File Path: <br/><br/> File Size: <br/><br/> Creation Time: <br/><br/> Last Modified: <br/>"
+    document.getElementById("buttons").appendChild(fileInfo)
+    
     lessThan = dir.length
     nextBool = dir.length - 10
     if(dir.length > 10)
@@ -81,8 +96,50 @@ function makeButtons(dir) {
         newDir = dir[i].toString()
         button = document.createElement('button')
         button.value = newDir
-        button.innerHTML = newDir
         button.rClick = newDir
+        this.rClick = newDir
+        button.nClick = newDir
+        button.check = newDir
+        this.check = path.join(FileSystem.currentDirectory, this.rClick)
+        this.check = path.resolve(this.check);
+        this.check = path.normalize(this.check);
+        try {
+            if(fs.lstatSync(this.check).isDirectory())
+            {
+                button.className = "folderButton"
+                if(newDir.length < 14)
+                {
+                    button.innerHTML = newDir + "<br/> Folder Channel"
+                }
+                else
+                {
+                    button.innerHTML = newDir.substring(0, 14) + " . . .<br/> Folder Channel" 
+                }
+            }
+            else
+            {
+                button.className = "fileButton"
+                if(newDir.length < 14)
+                {
+                    button.innerHTML = newDir + "<br/> File Channel"
+                }
+                else
+                {
+                    button.innerHTML = newDir.substring(0, 14) + " . . .<br/> File Channel" 
+                }
+            }
+        } catch {
+            button.className = "fileButton"
+            if(newDir.length < 14)
+            {
+                button.innerHTML = newDir + "<br/> File Channel"
+            }
+            else
+            {
+                button.innerHTML = newDir.substring(0, 14) + " . . .<br/> File Channel" 
+            }
+        }
+        button.stats = []
         button.style.position = "absolute"
         if(i === 2 || i === 6 || i === 10)
         {
@@ -91,14 +148,18 @@ function makeButtons(dir) {
         }
         button.style.left = (butLeft) + "px"
         button.style.top = (butTop) + "px"
-        button.className = "wiiButton"
         button.onmousedown = function(event) {
             if(event.which === 3)
             {
-                this.rClick = path.join(FileSystem.currentDirectory, this.rClick)
-                this.rClick = path.resolve(this.rClick);
-                this.rClick = path.normalize(this.rClick);
-                clipboard.writeText(this.rClick)
+                if(this.nClick !== clipboard.readText())
+                {
+                    this.nClick = path.join(FileSystem.currentDirectory, this.rClick)
+                    this.nClick = path.resolve(this.nClick);
+                    this.nClick = path.normalize(this.nClick);
+                    clipboard.writeText(this.nClick)
+                    this.stats = fs.statSync(this.nClick)
+                    document.getElementById("info").innerHTML = "File Path: " + this.nClick + "<br/><br/> File Size: " + this.stats.size + " KB<br/><br/> Creation Time: " + this.stats.birthtime + "<br/><br/> Last Modified: " + this.stats.mtime + "<br/>"
+                }
             }
         }
         button.onclick = function() {
@@ -125,7 +186,6 @@ function makeButtons(dir) {
         document.getElementById("buttons").appendChild(image)
         butLeft += 225
     }
-    createImportantChannels()
     if(nextBool > 0)
     {
         temp = i
@@ -292,6 +352,7 @@ function makeButtons(dir) {
 
 //Async function to place the buttons, waits for buttons to be made first
 async function replaceButtons(dir, pos) {
+
     if(dir === 1)
     {
         return 1;
@@ -302,6 +363,14 @@ async function replaceButtons(dir, pos) {
     {
         oldNodes.removeChild(oldNodes.firstChild);
     }
+
+    fileInfo = document.createElement("P")
+    fileInfo.style.position = "absolute"
+    fileInfo.className = "infoText"
+    fileInfo.id = "info"
+    fileInfo.innerHTML = "File Path: <br/><br/> File Size: <br/><br/> Creation Time: <br/><br/> Last Modified: <br/>"
+    document.getElementById("buttons").appendChild(fileInfo)
+
     lessThan = dir.length
     if(dir.length - pos > 12)
     {
@@ -319,9 +388,51 @@ async function replaceButtons(dir, pos) {
             newDir = dir[i].toString()
             button = document.createElement('button')
             button.value = newDir
-            button.innerHTML = newDir
+            //button.innerHTML = newDir
             button.rClick = newDir
+            this.rClick = newDir
+            button.nClick = newDir
+            button.check = newDir
+            this.check = path.join(FileSystem.currentDirectory, this.rClick)
+            this.check = path.resolve(this.check);
+            this.check = path.normalize(this.check);
             button.style.position = "absolute"
+            try {
+                if(fs.lstatSync(this.check).isDirectory())
+                {
+                    button.className = "folderButton"
+                    if(newDir.length < 14)
+                    {
+                        button.innerHTML = newDir + "<br/> Folder Channel"
+                    }
+                    else
+                    {
+                        button.innerHTML = newDir.substring(0, 14) + " . . .<br/> Folder Channel" 
+                    }
+                }
+                else
+                {
+                    button.className = "fileButton"
+                    if(newDir.length < 14)
+                    {
+                        button.innerHTML = newDir + "<br/> File Channel"
+                    }
+                    else
+                    {
+                        button.innerHTML = newDir.substring(0, 14) + " . . .<br/> File Channel" 
+                    }
+                }
+            } catch {
+                button.className = "fileButton"
+                if(newDir.length < 14)
+                {
+                    button.innerHTML = newDir + "<br/> File Channel"
+                }
+                else
+                {
+                    button.innerHTML = newDir.substring(0, 14) + " . . .<br/> File Channel" 
+                }
+            }
             if(j !== 0 && j % 4 == 0)
             {
                 butTop += 125
@@ -329,14 +440,20 @@ async function replaceButtons(dir, pos) {
             }
             button.style.left = (butLeft) + "px"
             button.style.top = (butTop) + "px"
-            button.className = "wiiButton"
+            //button.className = "wiiButton"
             button.onmousedown = function(event) {
                 if(event.which === 3)
                 {
-                    this.rClick = path.join(FileSystem.currentDirectory, this.rClick)
-                    this.rClick = path.resolve(this.rClick);
-                    this.rClick = path.normalize(this.rClick);
-                    clipboard.writeText(this.rClick)
+                    if(this.nClick !== clipboard.readText())
+                    {
+                        this.nClick = path.join(FileSystem.currentDirectory, this.rClick)
+                        this.nClick = path.resolve(this.nClick);
+                        this.nClick = path.normalize(this.nClick);
+                        console.log(this.nClick + " and " + clipboard.readText())
+                        clipboard.writeText(this.nClick)
+                        this.stats = fs.statSync(this.nClick)
+                        document.getElementById("info").innerHTML = "File Path: " + this.nClick + "<br/><br/> File Size: " + this.stats.size*0.001 + " KB<br/><br/> Creation Time: " + this.stats.birthtime + "<br/><br/> Last Modified: " + this.stats.mtime + "<br/>"
+                    }
                 }
             }
             button.onclick = function() {
@@ -361,9 +478,51 @@ async function replaceButtons(dir, pos) {
             newDir = dir[i].toString()
             button = document.createElement('button')
             button.value = newDir
-            button.innerHTML = newDir
+            //button.innerHTML = newDir
             button.rClick = newDir
+            this.rClick = newDir
+            button.nClick = newDir
+            button.check = newDir
+            this.check = path.join(FileSystem.currentDirectory, this.rClick)
+            this.check = path.resolve(this.check);
+            this.check = path.normalize(this.check);
             button.style.position = "absolute"
+            try {
+                if(fs.lstatSync(this.check).isDirectory())
+                {
+                    button.className = "folderButton"
+                    if(newDir.length < 14)
+                    {
+                        button.innerHTML = newDir + "<br/> Folder Channel"
+                    }
+                    else
+                    {
+                        button.innerHTML = newDir.substring(0, 14) + " . . .<br/> Folder Channel" 
+                    }
+                }
+                else
+                {
+                    button.className = "fileButton"
+                    if(newDir.length < 14)
+                    {
+                        button.innerHTML = newDir + "<br/> File Channel"
+                    }
+                    else
+                    {
+                        button.innerHTML = newDir.substring(0, 14) + " . . .<br/> File Channel" 
+                    }
+                }
+            } catch {
+                button.className = "fileButton"
+                if(newDir.length < 14)
+                {
+                    button.innerHTML = newDir + "<br/> File Channel"
+                }
+                else
+                {
+                    button.innerHTML = newDir.substring(0, 14) + " . . .<br/> File Channel" 
+                }
+            }
             if(i === 2 || i === 6 || i === 10)
             {
                 butTop += 125
@@ -371,14 +530,20 @@ async function replaceButtons(dir, pos) {
             }
             button.style.left = (butLeft) + "px"
             button.style.top = (butTop) + "px"
-            button.className = "wiiButton"
+            //button.className = "wiiButton"
             button.onmousedown = function(event) {
                 if(event.which === 3)
                 {
-                    this.rClick = path.join(FileSystem.currentDirectory, this.rClick)
-                    this.rClick = path.resolve(this.rClick);
-                    this.rClick = path.normalize(this.rClick);
-                    clipboard.writeText(this.rClick)
+                    if(this.nClick !== clipboard.readText())
+                    {
+                        this.nClick = path.join(FileSystem.currentDirectory, this.rClick)
+                        this.nClick = path.resolve(this.nClick);
+                        this.nClick = path.normalize(this.nClick);
+                        console.log(this.nClick + " and " + clipboard.readText())
+                        clipboard.writeText(this.nClick)
+                        this.stats = fs.statSync(this.nClick)
+                        document.getElementById("info").innerHTML = "File Path: " + this.nClick + "<br/><br/> File Size: " + this.stats.size*0.001 + " KB<br/><br/> Creation Time: " + this.stats.birthtime + "<br/><br/> Last Modified: " + this.stats.mtime + "<br/>"
+                    }
                 }
             }
             button.onclick = function() {
@@ -477,7 +642,6 @@ async function replaceButtons(dir, pos) {
                     else if(pos >= 10)
                         replaceButtons(correctedDir, pos-10)
                     else {
-                        console.log("here")
                         replaceButtons(correctedDir, 0)
                     }
                 })

@@ -140,6 +140,19 @@ ctx.fillStyle = buttonGrd
 ctx.fill()
 ctx.stroke()
 
+//Drawing info section
+ctx.beginPath()
+ctx.lineWidth = 7
+ctx.moveTo(340, canvas.height)
+ctx.lineTo(340, 470)
+ctx.bezierCurveTo(340, 430, 660, 430, 660, 470)
+ctx.lineTo(660, canvas.height)
+ctx.closePath()
+ctx.fillStyle = "white"
+ctx.strokeStyle = barGrd
+ctx.stroke()
+ctx.fill()
+
 //Drawing left button wrapper
 ctx.beginPath()
 ctx.arc(120, 380 + 75, 45, 0, 2 * Math.PI)
