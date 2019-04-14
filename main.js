@@ -5,7 +5,7 @@ let win
 function createWindow () {
   win = new BrowserWindow({ width: 1000, height: 600, resizable: false })
 
-  //win.setMenu(null)
+  win.setMenu(null)
 
   win.loadFile('index.html')
 

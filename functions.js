@@ -1,6 +1,7 @@
 const fs = require('fs')
 const path = require('path')
-
+const { clipboard } = require('electron')
+const dialog = require('electron').remote.dialog
 const root = fs.readdirSync('/')
 
 
@@ -66,14 +67,13 @@ function baseDirectory() {
 
 //Temporary function potentially for creating buttons on page.
 function makeButtons(dir) {
-    //for(i = 0; i < dir.length; i++)
     lessThan = dir.length
-    nextBool = dir.length - 12
-    if(dir.length > 12)
+    nextBool = dir.length - 10
+    if(dir.length > 10)
     {
-        lessThan = 12
+        lessThan = 10
     }
-    butLeft = 50;
+    butLeft = 500;
     butTop = 5;
     for(i = 0; i < lessThan; i++)
     {
@@ -81,8 +81,9 @@ function makeButtons(dir) {
         button = document.createElement('button')
         button.value = newDir
         button.innerHTML = newDir
+        button.rClick = newDir
         button.style.position = "absolute"
-        if(i !== 0 && i % 4 == 0)
+        if(i === 2 || i === 6 || i === 10)
         {
             butTop += 125
             butLeft = 50
@@ -90,6 +91,15 @@ function makeButtons(dir) {
         button.style.left = (butLeft) + "px"
         button.style.top = (butTop) + "px"
         button.className = "wiiButton"
+        button.onmousedown = function(event) {
+            if(event.which === 3)
+            {
+                this.rClick = path.join(FileSystem.currentDirectory, this.rClick)
+                this.rClick = path.resolve(this.rClick);
+                this.rClick = path.normalize(this.rClick);
+                clipboard.writeText(this.rClick)
+            }
+        }
         button.onclick = function() {
             replaceButtons(dirUp(FileSystem.currentDirectory, this.value), 0)
         }
@@ -114,6 +124,7 @@ function makeButtons(dir) {
         document.getElementById("buttons").appendChild(image)
         butLeft += 225
     }
+    createImportantChannels()
     if(nextBool > 0)
     {
         temp = i
@@ -126,6 +137,12 @@ function makeButtons(dir) {
         }
         document.getElementById("buttons").appendChild(button)
     }
+    pasteButton = document.createElement('button')
+    pasteButton.style.position = "absolute"
+    pasteButton.className = "pasteButton"
+    document.getElementById("buttons").appendChild(pasteButton)
+
+
 }
 
 //Async function to place the buttons, waits for buttons to be made first
@@ -146,31 +163,85 @@ async function replaceButtons(dir, pos) {
         lessThan = pos + 12
     }
     console.log(lessThan)
-    butLeft = 50;
-    butTop = 5;
-    //for(i = 0; i < dir.length; i++)
-    j = 0
-    for(i = pos; i < lessThan; i++)
+    if(pos !== 0)
     {
-        newDir = dir[i].toString()
-        button = document.createElement('button')
-        button.value = newDir
-        button.innerHTML = newDir
-        button.style.position = "absolute"
-        if(j !== 0 && j % 4 == 0)
+        butLeft = 50;
+        butTop = 5;
+        //for(i = 0; i < dir.length; i++)
+        j = 0
+        for(i = pos; i < lessThan; i++)
         {
-            butTop += 125
-            butLeft = 50
+            newDir = dir[i].toString()
+            button = document.createElement('button')
+            button.value = newDir
+            button.innerHTML = newDir
+            button.rClick = newDir
+            button.style.position = "absolute"
+            if(j !== 0 && j % 4 == 0)
+            {
+                butTop += 125
+                butLeft = 50
+            }
+            button.style.left = (butLeft) + "px"
+            button.style.top = (butTop) + "px"
+            button.className = "wiiButton"
+            button.onmousedown = function(event) {
+                if(event.which === 3)
+                {
+                    this.rClick = path.join(FileSystem.currentDirectory, this.rClick)
+                    this.rClick = path.resolve(this.rClick);
+                    this.rClick = path.normalize(this.rClick);
+                    clipboard.writeText(this.rClick)
+                }
+            }
+            button.onclick = function() {
+                replaceButtons(dirUp(FileSystem.currentDirectory, this.value), 0)
+            }
+            document.getElementById("buttons").appendChild(button)
+            butLeft += 225
+            j++
         }
-        button.style.left = (butLeft) + "px"
-        button.style.top = (butTop) + "px"
-        button.className = "wiiButton"
-        button.onclick = function() {
-            replaceButtons(dirUp(FileSystem.currentDirectory, this.value), 0)
+    }
+    else
+    {
+        lessThan = dir.length
+        if(dir.length > 10)
+        {
+            lessThan = 10
         }
-        document.getElementById("buttons").appendChild(button)
-        butLeft += 225
-        j++
+        butLeft = 500;
+        butTop = 5;
+        for(i = 0; i < lessThan; i++)
+        {
+            newDir = dir[i].toString()
+            button = document.createElement('button')
+            button.value = newDir
+            button.innerHTML = newDir
+            button.rClick = newDir
+            button.style.position = "absolute"
+            if(i === 2 || i === 6 || i === 10)
+            {
+                butTop += 125
+                butLeft = 50
+            }
+            button.style.left = (butLeft) + "px"
+            button.style.top = (butTop) + "px"
+            button.className = "wiiButton"
+            button.onmousedown = function(event) {
+                if(event.which === 3)
+                {
+                    this.rClick = path.join(FileSystem.currentDirectory, this.rClick)
+                    this.rClick = path.resolve(this.rClick);
+                    this.rClick = path.normalize(this.rClick);
+                    clipboard.writeText(this.rClick)
+                }
+            }
+            button.onclick = function() {
+                replaceButtons(dirUp(FileSystem.currentDirectory, this.value), 0)
+            }
+            document.getElementById("buttons").appendChild(button)
+            butLeft += 225
+        } 
     }
     butLeft = 53
     butTop = 5
@@ -190,6 +261,10 @@ async function replaceButtons(dir, pos) {
         document.getElementById("buttons").appendChild(image)
         butLeft += 225
     }
+    if(pos === 0)
+    {
+        createImportantChannels()
+    }
     if(nextBool > 0)
     {
         temp = i
@@ -197,18 +272,21 @@ async function replaceButtons(dir, pos) {
         button.style.position = "absolute"
         button.className = "nextButton"
         button.onclick = function() {
-            console.log(temp)
             replaceButtons(dir, temp)
         }
         document.getElementById("buttons").appendChild(button)
     }
-    if(pos >= 12)
+    if(pos >= 10)
     {
+        
         button = document.createElement('button')
         button.style.position = "absolute"
         button.className = "backButton"
         button.onclick = function() {
-            replaceButtons(dir, pos-12)
+            if(pos >= 12)
+                replaceButtons(dir, pos-12)
+            else
+                replaceButtons(dir, pos-10)
         }
         document.getElementById("buttons").appendChild(button)
     }
@@ -222,6 +300,190 @@ async function replaceButtons(dir, pos) {
         }
         document.getElementById("buttons").appendChild(button)
     }
+    pasteButton = document.createElement('button')
+    pasteButton.style.position = "absolute"
+    pasteButton.className = "pasteButton"
+    pasteButton.onclick = function() {
+        copyFile = clipboard.readText()
+        //Regex that returns only filename
+        copyFileCorrected = copyFile.replace(/^.*[\\\/]/, '')
+        newDir = path.join(FileSystem.currentDirectory, copyFileCorrected)
+        absolutePath = path.resolve(newDir);
+        correctedPath = path.normalize(absolutePath);
+        if(fs.existsSync(correctedPath))
+        {
+            error = dialog.showMessageBox({message: "File Already Exists", title: "Oops!"})
+            console.log(error)
+        }
+        else
+        {
+            try {
+                fs.closeSync(fs.openSync(correctedPath, 'a'))
+                success = dialog.showMessageBox({message: "File Successfully Pasted", title: "Success"})
+                console.log(success)
+                if(pos >= 12)
+                    replaceButtons(dir, pos-12)
+                else if(pos >= 10)
+                    replaceButtons(dir, pos-10)
+                else
+                    replaceButtons(dir, 0)
+            } catch {
+                console.log(correctedPath)
+            }
+        }
+    }
+    document.getElementById("buttons").appendChild(pasteButton)
+}
+
+//Creates a new file if it can
+function createFile() {
+    fileName = document.getElementById("miiText").value
+    newDir = path.join(FileSystem.currentDirectory, fileName)
+    absolutePath = path.resolve(newDir);
+    correctedPath = path.normalize(absolutePath);
+    errorMessage = document.createElement("P")
+    errorMessage.style.position = "absolute"
+    errorMessage.className = "errorMessage"
+    errorMessage.id = "miiErr"
+    document.getElementById("buttons").appendChild(errorMessage)
+    try {
+        if(fs.existsSync(correctedPath))
+        {
+            document.getElementById("miiErr").innerHTML = "File Already Exists"
+            document.getElementById("miiPicture").src = "MiiBrawlPic.png"
+        }
+        else {
+            fs.closeSync(fs.openSync(correctedPath, 'a'))
+            document.getElementById("miiErr").innerHTML = "File Successfully Created"
+            document.getElementById("miiPicture").src = "MiiGunnerPic.png"
+        }
+    } catch {
+        document.getElementById("miiErr").innerHTML = "File Could Not Be Created"
+        document.getElementById("miiPicture").src = "MiiBrawlPic.png"
+
+    }
+}
+
+//Creates a new directory if it can
+function createDir() {
+    fileName = document.getElementById("dirText").value
+    newDir = path.join(FileSystem.currentDirectory, fileName)
+    absolutePath = path.resolve(newDir);
+    correctedPath = path.normalize(absolutePath);
+    errorMessage = document.createElement("P")
+    errorMessage.style.position = "absolute"
+    errorMessage.className = "direrrorMessage"
+    errorMessage.id = "dirErr"
+    document.getElementById("buttons").appendChild(errorMessage)
+    try {
+        if(fs.existsSync(correctedPath))
+        {
+            document.getElementById("dirErr").innerHTML = "Directroy Already Exists"
+            document.getElementById("miiPicture").src = "MiiBrawlPic.png"
+        }
+        else {
+            fs.mkdirSync(correctedPath)
+            document.getElementById("dirErr").innerHTML = "Directory Successfully Created"
+            document.getElementById("miiPicture").src = "MiiGunnerPic.png"
+        }
+    } catch {
+        document.getElementById("dirErr").innerHTML = "Directory Could Not Be Created"
+        document.getElementById("miiPicture").src = "MiiBrawlPic.png"
+
+    }
+}
+
+//Creates the UI for file creation and directory creation
+function fileChannelUI() {
+    fileName = document.createElement("INPUT")
+    fileName.setAttribute("type", "text")
+    fileName.style.position = "absolute"
+    fileName.className = "textBox"
+    fileName.id = "miiText"
+    document.getElementById("buttons").appendChild(fileName)
+
+    miiSubmit = document.createElement('button')
+    miiSubmit.style.position = "absolute"
+    miiSubmit.className = "miiSubmit"
+    miiSubmit.innerHTML = "Create"
+    miiSubmit.onclick = function() {
+        createFile()
+    }
+    document.getElementById("buttons").appendChild(miiSubmit)
+
+    dirName = document.createElement("INPUT")
+    dirName.setAttribute("type", "text")
+    dirName.style.position = "absolute"
+    dirName.className = "dirtextBox"
+    dirName.id = "dirText"
+    document.getElementById("buttons").appendChild(dirName)
+
+    miiDir = document.createElement('button')
+    miiDir.style.position = "absolute"
+    miiDir.className = "dirSubmit"
+    miiDir.innerHTML = "Create"
+    miiDir.onclick = function() {
+        createDir()
+    }
+    document.getElementById("buttons").appendChild(miiDir)
+
+    miiBack = document.createElement('button')
+    miiBack.style.position = "absolute"
+    miiBack.className = "miiBack"
+    miiBack.innerHTML = "Back"
+    miiBack.onclick = function() {
+        while(oldNodes.firstChild)
+        {
+            oldNodes.removeChild(oldNodes.firstChild);
+        }
+        restoreWiiMenu()
+        try {
+            dir = fs.readdirSync(FileSystem.currentDirectory);
+            replaceButtons(dir, 0)
+    
+        } catch(err) {
+            return 1;
+        }
+
+    }
+    document.getElementById("buttons").appendChild(miiBack)
+
+    miiPic = document.createElement('IMG')
+    miiPic.style.position = "absolute"
+    miiPic.className = "miiPic"
+    miiPic.src = "miiSwordPic.png"
+    miiPic.id = "miiPicture"
+    document.getElementById("buttons").appendChild(miiPic)
+}
+
+//Creates the Fiile Channel
+function createImportantChannels() {
+    fileChannel = document.createElement('button')
+    fileChannel.style.position = "absolute"
+    fileChannel.className = "fileChannel"
+    fileChannel.style.left = "50px"
+    fileChannel.style.top = "5px"
+    fileChannel.onclick = function() {
+        clearCanvas()
+        oldNodes = document.getElementById("buttons")
+        while(oldNodes.firstChild)
+        {
+            oldNodes.removeChild(oldNodes.firstChild);
+        }
+        drawFileChannel()
+        fileChannelUI()
+    }
+    document.getElementById("buttons").appendChild(fileChannel)
+
+    dirChannel = document.createElement('button')
+    dirChannel.style.position = "absolute"
+    dirChannel.className = "fileChannel"
+    dirChannel.style.left = "275px"
+    dirChannel.style.top = "5px"
+    dirChannel.onclick = function() {
+        restoreWiiMenu()
+    }
+    document.getElementById("buttons").appendChild(dirChannel)
 }
 
 

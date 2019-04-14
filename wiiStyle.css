@@ -25,6 +25,12 @@ img
     border-radius: 25px;
     filter: brightness(200%)
 }
+.miiPic {
+    left: 500px;
+    top: 0px;
+    max-width: 600px;
+    max-height: 500px;
+}
 button
 {
     padding: 0;
@@ -73,6 +79,14 @@ button
     transform: skewX(10deg)
     
 }
+.fileChannel {
+    height: 109px;
+    width: 200px;
+    border-radius: 25px;
+    background: url("FileChannel.jpg");
+    background-size: 200px 120px;
+    background-position: center;
+}
 .superBack {
     left: 832px;
     top: 413px;
@@ -89,10 +103,122 @@ button
 .superBack:focus {
     outline: 0;
 }
+.pasteButton {
+    left: 76px;
+    top: 411px;
+    border-radius: 85px;
+    height: 88px;
+    width: 88px;
+    background: url("pasteButton.png") -7px;
+    background-size: contain;
+    background-position: center;
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24);
+}
+.pasteButton:active {
+    transform: translateY(2px);
+    outline: 0;
+}
+.pasteButton:focus {
+    outline: 0;
+}
+.miiSubmit {
+    left: 20px;
+    top: 130px;
+    height: 50px;
+    width: 100px;
+    border-radius: 10px;
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24);
+    border-style: groove;
+    border-color: rgb(204, 132, 65);
+    background-color: rgba(255, 255, 255, 0.5);
+    text-align: center;
+    font-family: monospace;
+    font-size: 20px;
+    font-weight: bold;
+}
+.miiSubmit:active {
+    transform: translateY(4px);
+    outline: 0;
+}
+.miiSubmit:focus {
+    outline: 0;
+}
+.dirSubmit {
+    left: 20px;
+    top: 360px;
+    height: 50px;
+    width: 100px;
+    border-radius: 10px;
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24);
+    border-style: groove;
+    border-color: rgb(204, 132, 65);
+    background-color: rgba(255, 255, 255, 0.5);
+    text-align: center;
+    font-family: monospace;
+    font-size: 20px;
+    font-weight: bold;
+}
+.dirSubmit:active {
+    transform: translateY(4px);
+    outline: 0;
+}
+.dirSubmit:focus {
+    outline: 0;
+}
+.miiBack {
+    left: 20px;
+    top: 450px;
+    height: 50px;
+    width: 100px;
+    border-radius: 10px;
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24);
+    border-style: groove;
+    border-color: rgb(204, 132, 65);
+    background-color: rgba(255, 255, 255, 0.5);
+    text-align: center;
+    font-family: monospace;
+    font-size: 20px;
+    font-weight: bold;
+}
+.miiBack:active {
+    transform: translateY(4px);
+    outline: 0;
+}
+.miiBack:focus {
+    outline: 0;
+}
 
 canvas
 {
     z-index: 0;
+}
+
+input {
+    padding: 0;
+    border: none;
+    z-index: 2;
+}
+.textBox {
+    left: 10px;
+    top: 55px;
+    width: 300px;
+    height: 50px;
+    border-radius: 25px;
+}
+.textBox:focus {
+    border: 2px solid rgb(12, 53, 15);
+    outline: 0;
+}
+.dirtextBox {
+    left: 10px;
+    top: 283px;
+    width: 300px;
+    height: 50px;
+    border-radius: 25px;
+}
+.dirtextBox:focus {
+    border: 2px solid rgb(12, 53, 15);
+    outline: 0;
 }
 
 #wiiBack
@@ -105,4 +231,17 @@ canvas
     height: 100%;
     object-fit: cover;
     
+}
+
+p
+{
+    z-index: 2;
+}
+.errorMessage {
+    left: 130px;
+    top: 130px;
+}
+.direrrorMessage {
+    left: 130px;
+    top: 360px;
 }
