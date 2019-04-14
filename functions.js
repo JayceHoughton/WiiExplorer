@@ -463,16 +463,27 @@ async function replaceButtons(dir, pos) {
         else
         {
             try {
-                fs.closeSync(fs.openSync(correctedPath, 'a'))
-                success = dialog.showMessageBox({message: "File Successfully Pasted", title: "Success"})
-                console.log(success)
-                if(pos >= 12)
-                    replaceButtons(dir, pos-12)
-                else if(pos >= 10)
-                    replaceButtons(dir, pos-10)
-                else
-                    replaceButtons(dir, 0)
-            } catch {
+                //fs.closeSync(fs.openSync(correctedPath, 'a'))
+                fs.copyFile(copyFile, correctedPath, (err) => {
+                    if (err)
+                    { 
+                        throw err
+                    }
+                    correctedDir = fs.readdirSync(FileSystem.currentDirectory);
+                    success = dialog.showMessageBox({message: "File Successfully Pasted", title: "Success"})
+                    console.log(success)
+                    if(pos >= 12)
+                        replaceButtons(correctedDir, pos-12)
+                    else if(pos >= 10)
+                        replaceButtons(correctedDir, pos-10)
+                    else {
+                        console.log("here")
+                        replaceButtons(correctedDir, 0)
+                    }
+                })
+            } catch(err) {
+                console.log(err)
+                console.log(copyFile)
                 console.log(correctedPath)
             }
         }
@@ -564,13 +575,13 @@ async function replaceButtons(dir, pos) {
             type: 'question',
             buttons: ['No', 'Yes'],
             title: 'Are you sure?',
-            message: 'Are you sure you want to cut ' + copyFile + ' to ' + correctedPathcopy + ' ?',
+            message: 'Are you sure you want to move ' + copyFile + ' to ' + correctedPathcopy + ' ?',
         }
         options2 = {
             type: 'question',
             buttons: ['No', 'Yes'],
             title: 'Are you SURE?',
-            message: 'Are you SURE you want to cut ' + copyFile + ' to ' + correctedPathcopy + ' ?',
+            message: 'Are you SURE you want to move ' + copyFile + ' to ' + correctedPathcopy + ' ?',
         }
         dialog.showMessageBox(null, options, (response) => {
             if(response == 1)
@@ -594,22 +605,28 @@ async function replaceButtons(dir, pos) {
                             try {
                                 if(fs.lstatSync(deleteFile).isDirectory())
                                 {
-                                    error = dialog.showMessageBox({message: "Cannot Cut Directories!", title: "Oops!"})
+                                    error = dialog.showMessageBox({message: "Cannot Move Directories!", title: "Oops!"})
                                 }
                                 else
                                 {
-                                    fs.unlinkSync(deleteFile)
-                                    fs.closeSync(fs.openSync(correctedPathcopy, 'a'))
-                                    correctedDir = fs.readdirSync(correctedPath);
-                                    success = dialog.showMessageBox({message: "File Successfully Moved", title: "Success"})
-                                    console.log(success)
-                                    if(pos >= 12)
-                                        replaceButtons(correctedDir, pos-12)
-                                    else if(pos >= 10)
-                                        replaceButtons(correctedDir, pos-10)
-                                    else
-                                        replaceButtons(correctedDir, 0)
-                                        console.log(correctedDir)
+                                    fs.copyFile(deleteFile, correctedPathcopy, (err) => {
+                                        if (err)
+                                        { 
+                                            throw err
+                                        }
+                                        fs.unlinkSync(deleteFile)
+                                        correctedDir = fs.readdirSync(FileSystem.currentDirectory);
+                                        success = dialog.showMessageBox({message: "File Successfully Moved", title: "Success"})
+                                        console.log(success)
+                                        if(pos >= 12)
+                                            replaceButtons(correctedDir, pos-12)
+                                        else if(pos >= 10)
+                                            replaceButtons(correctedDir, pos-10)
+                                        else {
+                                            console.log("here")
+                                            replaceButtons(correctedDir, 0)
+                                        }
+                                    })
                                 }
                             } catch(err) {
                                 dialog.showMessageBox({message: err, title: "!"})
