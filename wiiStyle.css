@@ -121,6 +121,42 @@ button
 .pasteButton:focus {
     outline: 0;
 }
+.cutButton {
+    left: 213px;
+    top: 453px;
+    border-radius: 85px;
+    height: 94px;
+    width: 94px;
+    background: url("CutIcon.png") -7px;
+    background-size: contain;
+    background-position: center;
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24);
+}
+.cutButton:active {
+    transform: translateY(2px);
+    outline: 0;
+}
+.cutButton:focus {
+    outline: 0;
+}
+.trashButton {
+    left: 693px;
+    top: 453px;
+    border-radius: 85px;
+    height: 94px;
+    width: 94px;
+    background: url("TrashIcon.png") -7px;
+    background-size: contain;
+    background-position: center;
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24);
+}
+.trashButton:active {
+    transform: translateY(2px);
+    outline: 0;
+}
+.trashButton:focus {
+    outline: 0;
+}
 .miiSubmit {
     left: 20px;
     top: 130px;

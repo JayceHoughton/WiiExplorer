@@ -3,6 +3,7 @@ const path = require('path')
 const { clipboard } = require('electron')
 const dialog = require('electron').remote.dialog
 const root = fs.readdirSync('/')
+const rimraf = require("rimraf")
 
 
 async function test() {
@@ -141,6 +142,150 @@ function makeButtons(dir) {
     pasteButton.style.position = "absolute"
     pasteButton.className = "pasteButton"
     document.getElementById("buttons").appendChild(pasteButton)
+
+    trashButton = document.createElement('button')
+    trashButton.style.position = "absolute"
+    trashButton.className = "trashButton"
+    trashButton.onclick = function() {
+        absolutePath = path.resolve(FileSystem.currentDirectory);
+        correctedPath = path.normalize(absolutePath);
+        copyFile = clipboard.readText()
+        options = {
+            type: 'question',
+            buttons: ['No', 'Yes'],
+            title: 'Are you sure?',
+            message: 'Are you sure you want to delete ' + copyFile,
+        }
+        options2 = {
+            type: 'question',
+            buttons: ['No', 'Yes'],
+            title: 'Are you SURE?',
+            message: 'Are you SURE you want to delete ' + copyFile,
+        }
+        dialog.showMessageBox(null, options, (response) => {
+            if(response == 1)
+            {
+                dialog.showMessageBox(null, options2, (response) => {
+                    if(response == 1)
+                    {
+                        deleteFile = clipboard.readText()
+                        if(!fs.existsSync(deleteFile))
+                        {
+                            error = dialog.showMessageBox({message: "File or Directory does not exist", title: "Oops!"})
+                            console.log(error)
+                        }
+                        else
+                        {
+                            try {
+                                if(fs.lstatSync(deleteFile).isDirectory())
+                                {
+                                    rimraf(deleteFile, function() {
+                                        correctedDir = fs.readdirSync(correctedPath);
+                                        if(pos >= 12)
+                                            replaceButtons(correctedDir, pos-12)
+                                        else if(pos >= 10)
+                                            replaceButtons(correctedDir, pos-10)
+                                        else
+                                            replaceButtons(correctedDir, 0)
+                                            console.log(correctedDir)
+                                    })
+                                }
+                                else {
+                                    fs.unlinkSync(deleteFile)
+                                }
+                                correctedDir = fs.readdirSync(correctedPath);
+                                success = dialog.showMessageBox({message: "File Successfully Deleted", title: "Success"})
+                                console.log(success)
+                                if(pos >= 12)
+                                    replaceButtons(correctedDir, pos-12)
+                                else if(pos >= 10)
+                                    replaceButtons(correctedDir, pos-10)
+                                else
+                                    replaceButtons(correctedDir, 0)
+                                    console.log(correctedDir)
+                            } catch(err) {
+                                dialog.showMessageBox({message: err, title: "!"})
+                            }
+                        }
+                    }
+                })
+            }
+        })
+    }
+    document.getElementById("buttons").appendChild(trashButton)
+
+    cutButton = document.createElement('button')
+    cutButton.style.position = "absolute"
+    cutButton.className = "cutButton"
+    cutButton.onclick = function() {
+        absolutePath = path.resolve(FileSystem.currentDirectory);
+        correctedPath = path.normalize(absolutePath);
+        copyFile = clipboard.readText()
+        copyFileCorrected = copyFile.replace(/^.*[\\\/]/, '')
+        newDir = path.join(FileSystem.currentDirectory, copyFileCorrected)
+        absolutePathcopy = path.resolve(newDir);
+        correctedPathcopy = path.normalize(absolutePathcopy);
+        options = {
+            type: 'question',
+            buttons: ['No', 'Yes'],
+            title: 'Are you sure?',
+            message: 'Are you sure you want to cut ' + copyFile + ' to ' + correctedPathcopy + ' ?',
+        }
+        options2 = {
+            type: 'question',
+            buttons: ['No', 'Yes'],
+            title: 'Are you SURE?',
+            message: 'Are you SURE you want to cut ' + copyFile + ' to ' + correctedPathcopy + ' ?',
+        }
+        dialog.showMessageBox(null, options, (response) => {
+            if(response == 1)
+            {
+                dialog.showMessageBox(null, options2, (response) => {
+                    if(response == 1)
+                    {
+                        deleteFile = clipboard.readText()
+                        if(!fs.existsSync(deleteFile))
+                        {
+                            error = dialog.showMessageBox({message: "File does not exist", title: "Oops!"})
+                            console.log(error)
+                        }
+                        else if(fs.existsSync(correctedPathcopy))
+                        {
+                            error = dialog.showMessageBox({message: "File already exists in this directory!", title: "Oops!"})
+                            console.log(error)
+                        }
+                        else
+                        {
+                            try {
+                                if(fs.lstatSync(deleteFile).isDirectory())
+                                {
+                                    error = dialog.showMessageBox({message: "Cannot Cut Directories!", title: "Oops!"})
+                                }
+                                else
+                                {
+                                    fs.unlinkSync(deleteFile)
+                                    fs.closeSync(fs.openSync(correctedPathcopy, 'a'))
+                                    correctedDir = fs.readdirSync(correctedPath);
+                                    success = dialog.showMessageBox({message: "File Successfully Moved", title: "Success"})
+                                    console.log(success)
+                                    if(pos >= 12)
+                                        replaceButtons(correctedDir, pos-12)
+                                    else if(pos >= 10)
+                                        replaceButtons(correctedDir, pos-10)
+                                    else
+                                        replaceButtons(correctedDir, 0)
+                                        console.log(correctedDir)
+                                }
+                            } catch(err) {
+                                dialog.showMessageBox({message: err, title: "!"})
+                            }
+                        }
+                    }
+                })
+            }
+        })
+    }
+    document.getElementById("buttons").appendChild(cutButton)
 
 
 }
@@ -333,6 +478,149 @@ async function replaceButtons(dir, pos) {
         }
     }
     document.getElementById("buttons").appendChild(pasteButton)
+    trashButton = document.createElement('button')
+    trashButton.style.position = "absolute"
+    trashButton.className = "trashButton"
+    trashButton.onclick = function() {
+        absolutePath = path.resolve(FileSystem.currentDirectory);
+        correctedPath = path.normalize(absolutePath);
+        copyFile = clipboard.readText()
+        options = {
+            type: 'question',
+            buttons: ['No', 'Yes'],
+            title: 'Are you sure?',
+            message: 'Are you sure you want to delete ' + copyFile,
+        }
+        options2 = {
+            type: 'question',
+            buttons: ['No', 'Yes'],
+            title: 'Are you SURE?',
+            message: 'Are you SURE you want to delete ' + copyFile,
+        }
+        dialog.showMessageBox(null, options, (response) => {
+            if(response == 1)
+            {
+                dialog.showMessageBox(null, options2, (response) => {
+                    if(response == 1)
+                    {
+                        deleteFile = clipboard.readText()
+                        if(!fs.existsSync(deleteFile))
+                        {
+                            error = dialog.showMessageBox({message: "File or Directory does not exist", title: "Oops!"})
+                            console.log(error)
+                        }
+                        else
+                        {
+                            try {
+                                if(fs.lstatSync(deleteFile).isDirectory())
+                                {
+                                    rimraf(deleteFile, function() {
+                                        correctedDir = fs.readdirSync(correctedPath);
+                                        if(pos >= 12)
+                                            replaceButtons(correctedDir, pos-12)
+                                        else if(pos >= 10)
+                                            replaceButtons(correctedDir, pos-10)
+                                        else
+                                            replaceButtons(correctedDir, 0)
+                                            console.log(correctedDir)
+                                    })
+                                }
+                                else {
+                                    fs.unlinkSync(deleteFile)
+                                }
+                                correctedDir = fs.readdirSync(correctedPath);
+                                success = dialog.showMessageBox({message: "File Successfully Deleted", title: "Success"})
+                                console.log(success)
+                                if(pos >= 12)
+                                    replaceButtons(correctedDir, pos-12)
+                                else if(pos >= 10)
+                                    replaceButtons(correctedDir, pos-10)
+                                else
+                                    replaceButtons(correctedDir, 0)
+                                    console.log(correctedDir)
+                            } catch(err) {
+                                dialog.showMessageBox({message: err, title: "!"})
+                            }
+                        }
+                    }
+                })
+            }
+        })
+    }
+    document.getElementById("buttons").appendChild(trashButton)
+
+    cutButton = document.createElement('button')
+    cutButton.style.position = "absolute"
+    cutButton.className = "cutButton"
+    cutButton.onclick = function() {
+        absolutePath = path.resolve(FileSystem.currentDirectory);
+        correctedPath = path.normalize(absolutePath);
+        copyFile = clipboard.readText()
+        copyFileCorrected = copyFile.replace(/^.*[\\\/]/, '')
+        newDir = path.join(FileSystem.currentDirectory, copyFileCorrected)
+        absolutePathcopy = path.resolve(newDir);
+        correctedPathcopy = path.normalize(absolutePathcopy);
+        options = {
+            type: 'question',
+            buttons: ['No', 'Yes'],
+            title: 'Are you sure?',
+            message: 'Are you sure you want to cut ' + copyFile + ' to ' + correctedPathcopy + ' ?',
+        }
+        options2 = {
+            type: 'question',
+            buttons: ['No', 'Yes'],
+            title: 'Are you SURE?',
+            message: 'Are you SURE you want to cut ' + copyFile + ' to ' + correctedPathcopy + ' ?',
+        }
+        dialog.showMessageBox(null, options, (response) => {
+            if(response == 1)
+            {
+                dialog.showMessageBox(null, options2, (response) => {
+                    if(response == 1)
+                    {
+                        deleteFile = clipboard.readText()
+                        if(!fs.existsSync(deleteFile))
+                        {
+                            error = dialog.showMessageBox({message: "File does not exist", title: "Oops!"})
+                            console.log(error)
+                        }
+                        else if(fs.existsSync(correctedPathcopy))
+                        {
+                            error = dialog.showMessageBox({message: "File already exists in this directory!", title: "Oops!"})
+                            console.log(error)
+                        }
+                        else
+                        {
+                            try {
+                                if(fs.lstatSync(deleteFile).isDirectory())
+                                {
+                                    error = dialog.showMessageBox({message: "Cannot Cut Directories!", title: "Oops!"})
+                                }
+                                else
+                                {
+                                    fs.unlinkSync(deleteFile)
+                                    fs.closeSync(fs.openSync(correctedPathcopy, 'a'))
+                                    correctedDir = fs.readdirSync(correctedPath);
+                                    success = dialog.showMessageBox({message: "File Successfully Moved", title: "Success"})
+                                    console.log(success)
+                                    if(pos >= 12)
+                                        replaceButtons(correctedDir, pos-12)
+                                    else if(pos >= 10)
+                                        replaceButtons(correctedDir, pos-10)
+                                    else
+                                        replaceButtons(correctedDir, 0)
+                                        console.log(correctedDir)
+                                }
+                            } catch(err) {
+                                dialog.showMessageBox({message: err, title: "!"})
+                            }
+                        }
+                    }
+                })
+            }
+        })
+    }
+    document.getElementById("buttons").appendChild(cutButton)
 }
 
 //Creates a new file if it can

@@ -105,6 +105,41 @@ ctx.closePath()
 ctx.strokeStyle = barGrd
 ctx.stroke()
 
+//Drawing bottom button wrappers
+ctx.beginPath()
+ctx.lineWidth = 3
+ctx.moveTo(200, canvas.height)
+ctx.lineTo(200, 500)
+ctx.bezierCurveTo(200, 420, 320, 420, 320, 500)
+ctx.lineTo(320, canvas.height)
+ctx.closePath()
+ctx.strokeStyle = barGrd
+ctx.stroke()
+
+ctx.beginPath()
+ctx.lineWidth = 3
+ctx.moveTo(680, canvas.height)
+ctx.lineTo(680, 500)
+ctx.bezierCurveTo(680, 420, 800, 420, 800, 500)
+ctx.lineTo(800, canvas.height)
+ctx.closePath()
+ctx.strokeStyle = barGrd
+ctx.stroke()
+
+ctx.beginPath()
+ctx.arc(260, 500, 50, 0, 2 * Math.PI)
+ctx.strokeStyle = "#00ccfe"
+ctx.fillStyle = buttonGrd
+ctx.fill()
+ctx.stroke()
+
+ctx.beginPath()
+ctx.arc(740, 500, 50, 0, 2 * Math.PI)
+ctx.strokeStyle = "#00ccfe"
+ctx.fillStyle = buttonGrd
+ctx.fill()
+ctx.stroke()
+
 //Drawing left button wrapper
 ctx.beginPath()
 ctx.arc(120, 380 + 75, 45, 0, 2 * Math.PI)
