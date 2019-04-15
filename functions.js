@@ -958,30 +958,96 @@ function musicChannelUI() {
         if(i === 0)
         {
             songButton.innerHTML = "Wii Theme"
+            songButton.onclick = function() {
+                oldSong = document.getElementById("music")
+                newSong = oldSong.cloneNode(true)
+                newSong.src = "Main Menu.mp3"
+                oldSong.parentNode.replaceChild(newSong, oldSong)
+            }
         }
         else if(i === 1)
         {
             songButton.innerHTML = "Mii Theme"
+            songButton.onclick = function() {
+                oldSong = document.getElementById("music")
+                newSong = oldSong.cloneNode(true)
+                newSong.src = "Mii Channel.mp3"
+                oldSong.parentNode.replaceChild(newSong, oldSong)
+            }
         }
         else if(i === 2)
         {
             songButton.innerHTML = "Wii Shop Theme"
+            songButton.onclick = function() {
+                oldSong = document.getElementById("music")
+                newSong = oldSong.cloneNode(true)
+                newSong.src = "Shop Channel.mp3"
+                oldSong.parentNode.replaceChild(newSong, oldSong)
+            }
         }
         else if(i === 3)
         {
-            songButton.innerHTML = "Mii Theme Remix"
+            songButton.innerHTML = "Wii Sports (Bowling)"
+            songButton.onclick = function() {
+                oldSong = document.getElementById("music")
+                newSong = oldSong.cloneNode(true)
+                newSong.src = "Bowling.mp3"
+                oldSong.parentNode.replaceChild(newSong, oldSong)
+            }
         }
         else if(i === 4)
         {
-            songButton.innerHTML = "Mii Shop Theme Remix"
+            songButton.innerHTML = "Wii Sports Theme"
+            songButton.onclick = function() {
+                oldSong = document.getElementById("music")
+                newSong = oldSong.cloneNode(true)
+                newSong.src = "Wii Sports.mp3"
+                oldSong.parentNode.replaceChild(newSong, oldSong)
+            }
         }
         else
         {
             songButton.innerHTML = "Your Own Music"
+            songButton.onclick = function() {
+                dialog.showOpenDialog(function (chosenSong) {
+                    oldSong = document.getElementById("music")
+                    newSong = oldSong.cloneNode(true)
+                    if(chosenSong.length > 1)
+                    {
+                        dialog.showMessageBox({message: "Please select one song at a time!", title: "Oops!"})
+                    }
+                    else if((chosenSong[0].substr(chosenSong[0].lastIndexOf(".") + 1)) !== "mp3") {
+                        dialog.showMessageBox({message: "Sorry, only MP3 files are accepted!", title: "Oops!"})
+                    }
+                    else
+                    {
+                        newSong.src = chosenSong[0]
+                        oldSong.parentNode.replaceChild(newSong, oldSong)
+                    }
+                })
+            }
         }
         document.getElementById("buttons").appendChild(songButton)
         buttonTop += 52
     }
+
+    muteButton = document.createElement('button')
+    muteButton.className = "muteButton"
+    muteButton.style.position = "absolute"
+    muteButton.onclick = function() {
+        oldSong = document.getElementById("music")
+        newSong = oldSong.cloneNode(true)
+        newSong.src = ""
+        oldSong.parentNode.replaceChild(newSong, oldSong)
+    }
+    document.getElementById("buttons").appendChild(muteButton)
+
+    miiPic = document.createElement('IMG')
+    miiPic.style.position = "absolute"
+    miiPic.className = "musicPic"
+    miiPic.src = "MarioDance.png"
+    miiPic.id = "miiPicture"
+    document.getElementById("buttons").appendChild(miiPic)
 }
 
 //Creates the Fiile Channel

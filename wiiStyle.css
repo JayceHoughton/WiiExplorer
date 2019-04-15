@@ -45,6 +45,12 @@ img
     max-width: 600px;
     max-height: 500px;
 }
+.musicPic {
+    left: 440px;
+    top: 0px;
+    max-width: 600px;
+    max-height: 500px;
+}
 button
 {
     padding: 0;
@@ -287,7 +293,7 @@ button
     border-color: rgb(204, 132, 65);
     background-color: rgba(255, 255, 255, 0.5);
     text-align: center;
-    font-family: impact;
+    font-family: monospace;
     font-size: 20px;
     color: rgb(255, 124, 0);
     font-weight: bold;
@@ -297,6 +303,31 @@ button
     outline: 0;
 }
 .songButton:focus {
+    outline: 0;
+}
+.muteButton {
+    left: 350px;
+    top: 450px;
+    height: 100px;
+    width: 100px;
+    border-radius: 50px;
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24);
+    border-style: groove;
+    border-color: rgb(204, 132, 65);
+    background: url("MuteIcon.jpg");
+    background-size: 100px 100px;
+    background-position: center;
+    text-align: center;
+    font-family: monospace;
+    font-size: 20px;
+    color: rgb(255, 124, 0);
+    font-weight: bold;
+}
+.muteButton:active {
+    transform: translateY(4px);
+    outline: 0;
+}
+.muteButton:focus {
     outline: 0;
 }
 
