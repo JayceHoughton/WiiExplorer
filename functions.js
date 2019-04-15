@@ -80,7 +80,7 @@ function makeButtons(dir) {
     fileInfo.style.position = "absolute"
     fileInfo.className = "infoText"
     fileInfo.id = "info"
-    fileInfo.innerHTML = "File Path: <br/><br/> File Size: <br/><br/> Creation Time: <br/><br/> Last Modified: <br/>"
+    fileInfo.innerHTML = "Right Click a Channel to Copy it/display information. <br/><br/> File Path: <br/><br/> File Size: <br/><br/> Creation Time: <br/><br/> Last Modified: <br/>"
     document.getElementById("buttons").appendChild(fileInfo)
     
     lessThan = dir.length
@@ -158,7 +158,7 @@ function makeButtons(dir) {
                     this.nClick = path.normalize(this.nClick);
                     clipboard.writeText(this.nClick)
                     this.stats = fs.statSync(this.nClick)
-                    document.getElementById("info").innerHTML = "File Path: " + this.nClick + "<br/><br/> File Size: " + this.stats.size + " KB<br/><br/> Creation Time: " + this.stats.birthtime + "<br/><br/> Last Modified: " + this.stats.mtime + "<br/>"
+                    document.getElementById("info").innerHTML = "Right Click a Channel to Copy it/display information. <br/><br/> File Path: " + this.nClick + "<br/><br/> File Size: " + this.stats.size + " KB<br/><br/> Creation Time: " + this.stats.birthtime + "<br/><br/> Last Modified: " + this.stats.mtime + "<br/>"
                 }
             }
         }
@@ -368,7 +368,7 @@ async function replaceButtons(dir, pos) {
     fileInfo.style.position = "absolute"
     fileInfo.className = "infoText"
     fileInfo.id = "info"
-    fileInfo.innerHTML = "File Path: <br/><br/> File Size: <br/><br/> Creation Time: <br/><br/> Last Modified: <br/>"
+    fileInfo.innerHTML = "Right Click a Channel to Copy it/display information. <br/><br/> File Path: <br/><br/> File Size: <br/><br/> Creation Time: <br/><br/> Last Modified: <br/>"
     document.getElementById("buttons").appendChild(fileInfo)
 
     lessThan = dir.length
@@ -452,7 +452,7 @@ async function replaceButtons(dir, pos) {
                         console.log(this.nClick + " and " + clipboard.readText())
                         clipboard.writeText(this.nClick)
                         this.stats = fs.statSync(this.nClick)
-                        document.getElementById("info").innerHTML = "File Path: " + this.nClick + "<br/><br/> File Size: " + this.stats.size*0.001 + " KB<br/><br/> Creation Time: " + this.stats.birthtime + "<br/><br/> Last Modified: " + this.stats.mtime + "<br/>"
+                        document.getElementById("info").innerHTML = "Right Click a Channel to Copy it/display information. <br/><br/> File Path: " + this.nClick + "<br/><br/> File Size: " + this.stats.size*0.001 + " KB<br/><br/> Creation Time: " + this.stats.birthtime + "<br/><br/> Last Modified: " + this.stats.mtime + "<br/>"
                     }
                 }
             }
@@ -542,7 +542,7 @@ async function replaceButtons(dir, pos) {
                         console.log(this.nClick + " and " + clipboard.readText())
                         clipboard.writeText(this.nClick)
                         this.stats = fs.statSync(this.nClick)
-                        document.getElementById("info").innerHTML = "File Path: " + this.nClick + "<br/><br/> File Size: " + this.stats.size*0.001 + " KB<br/><br/> Creation Time: " + this.stats.birthtime + "<br/><br/> Last Modified: " + this.stats.mtime + "<br/>"
+                        document.getElementById("info").innerHTML = "Right Click a Channel to Copy it/display information. <br/><br/> File Path: " + this.nClick + "<br/><br/> File Size: " + this.stats.size*0.001 + " KB<br/><br/> Creation Time: " + this.stats.birthtime + "<br/><br/> Last Modified: " + this.stats.mtime + "<br/>"
                     }
                 }
             }
