@@ -220,6 +220,65 @@ function drawFileChannel() {
     ftx.fillText("Create New Dii-rectory:", 30, 278);
 }
 
+function drawMusicChannel() {
+    canvas = document.getElementById("wiiCanvas")
+    ftx = canvas.getContext("2d")
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    //File UI
+    ftx.lineWidth = 10
+    ftx.strokeStyle = "rgba(0, 0, 91, 0.2)"
+    ftx.strokeRect(0, 0, 505, canvas.height)
+
+    ftx.fillStyle = "rgba(255, 135, 0, 0.5)"
+    ftx.fillRect(5, 5, 495, canvas.height-10)
+
+    ftx.fillStyle = "rgb(211, 211, 211, 1)"
+    ftx.fillRect(0, 25, 300, 100)
+
+    ftx.arc(300, 75, 50, 0, 2 * Math.PI)
+    ftx.fill()
+
+    //Menu back box
+    ftx.fillStyle = "rgb(211, 211, 211, 1)"
+    ftx.fillRect(0, 150, 300, 340)
+
+    ftx.arc(300, 200, 50, 0, 2 * Math.PI)
+    ftx.fill()
+
+    ftx.arc(300, 440, 50, 0, 2 * Math.PI)
+    ftx.fill()
+
+    //Text
+    ftx.fillStyle = "rgba(255, 135, 0, 1)"
+    ftx.font = "50px impact";
+    ftx.fillText("SELECT", 15, 90);
+
+    ftx.fillStyle = "rgba(0, 0, 0, 1)"
+    ftx.font = "50px impact";
+    ftx.fillText("MUSIC", 190, 90);
+    
+
+
+    /*ftx.fillStyle = "rgba(0, 0, 0, 1)"
+    ftx.font = "20px monospace";
+    ftx.fillText("Create New Fii-le:", 30, 52);
+
+    //Directory UI
+
+    ftx.fillStyle = "rgb(211, 211, 211, 1)"
+    ftx.fillRect(0, 250, 300, 100)
+
+    ftx.arc(300, 300, 50, 0, 2 * Math.PI)
+    ftx.fill()
+
+
+    ftx.fillStyle = "rgba(0, 0, 0, 1)"
+    ftx.font = "20px monospace";
+    ftx.fillText("Create New Dii-rectory:", 30, 278);*/
+}
+
 
 //Drawing time on the menu
 //Commented out, will make the clock HTML

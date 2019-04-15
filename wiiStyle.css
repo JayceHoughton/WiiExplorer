@@ -102,6 +102,14 @@ button
     background-size: 200px 120px;
     background-position: center;
 }
+.musicChannel {
+    height: 109px;
+    width: 200px;
+    border-radius: 25px;
+    background: url("wiiMusic.jpg");
+    background-size: 200px 120px;
+    background-position: center;
+}
 .folderButton {
     height: 109px;
     width: 200px;
@@ -250,7 +258,7 @@ button
 }
 .miiBack {
     left: 20px;
-    top: 450px;
+    top: 500px;
     height: 50px;
     width: 100px;
     border-radius: 10px;
@@ -268,6 +276,27 @@ button
     outline: 0;
 }
 .miiBack:focus {
+    outline: 0;
+}
+.songButton {
+    height: 50px;
+    width: 250px;
+    border-radius: 10px;
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24);
+    border-style: groove;
+    border-color: rgb(204, 132, 65);
+    background-color: rgba(255, 255, 255, 0.5);
+    text-align: center;
+    font-family: impact;
+    font-size: 20px;
+    color: rgb(255, 124, 0);
+    font-weight: bold;
+}
+.songButton:active {
+    transform: translateY(4px);
+    outline: 0;
+}
+.songButton:focus {
     outline: 0;
 }
 

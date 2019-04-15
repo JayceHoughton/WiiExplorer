@@ -80,7 +80,7 @@ function makeButtons(dir) {
     fileInfo.style.position = "absolute"
     fileInfo.className = "infoText"
     fileInfo.id = "info"
-    fileInfo.innerHTML = "Right Click a Channel to Copy it/display information. <br/><br/> File Path: <br/><br/> File Size: <br/><br/> Creation Time: <br/><br/> Last Modified: <br/>"
+    fileInfo.innerHTML = "Right Click a Channel to Copy it/display information.<br/> File Path: <br/><br/> File Size: <br/><br/> Creation Time: <br/><br/> Last Modified: <br/>"
     document.getElementById("buttons").appendChild(fileInfo)
     
     lessThan = dir.length
@@ -158,7 +158,7 @@ function makeButtons(dir) {
                     this.nClick = path.normalize(this.nClick);
                     clipboard.writeText(this.nClick)
                     this.stats = fs.statSync(this.nClick)
-                    document.getElementById("info").innerHTML = "Right Click a Channel to Copy it/display information. <br/><br/> File Path: " + this.nClick + "<br/><br/> File Size: " + this.stats.size + " KB<br/><br/> Creation Time: " + this.stats.birthtime + "<br/><br/> Last Modified: " + this.stats.mtime + "<br/>"
+                    document.getElementById("info").innerHTML = "Right Click a Channel to Copy it/display information.<br/> File Path: " + this.nClick + "<br/><br/> File Size: " + this.stats.size + " KB<br/><br/> Creation Time: " + this.stats.birthtime + "<br/><br/> Last Modified: " + this.stats.mtime + "<br/>"
                 }
             }
         }
@@ -368,7 +368,7 @@ async function replaceButtons(dir, pos) {
     fileInfo.style.position = "absolute"
     fileInfo.className = "infoText"
     fileInfo.id = "info"
-    fileInfo.innerHTML = "Right Click a Channel to Copy it/display information. <br/><br/> File Path: <br/><br/> File Size: <br/><br/> Creation Time: <br/><br/> Last Modified: <br/>"
+    fileInfo.innerHTML = "Right Click a Channel to Copy it/display information.<br/> File Path: <br/><br/> File Size: <br/><br/> Creation Time: <br/><br/> Last Modified: <br/>"
     document.getElementById("buttons").appendChild(fileInfo)
 
     lessThan = dir.length
@@ -452,7 +452,7 @@ async function replaceButtons(dir, pos) {
                         console.log(this.nClick + " and " + clipboard.readText())
                         clipboard.writeText(this.nClick)
                         this.stats = fs.statSync(this.nClick)
-                        document.getElementById("info").innerHTML = "Right Click a Channel to Copy it/display information. <br/><br/> File Path: " + this.nClick + "<br/><br/> File Size: " + this.stats.size*0.001 + " KB<br/><br/> Creation Time: " + this.stats.birthtime + "<br/><br/> Last Modified: " + this.stats.mtime + "<br/>"
+                        document.getElementById("info").innerHTML = "Right Click a Channel to Copy it/display information.<br/> File Path: " + this.nClick + "<br/><br/> File Size: " + this.stats.size*0.001 + " KB<br/><br/> Creation Time: " + this.stats.birthtime + "<br/><br/> Last Modified: " + this.stats.mtime + "<br/>"
                     }
                 }
             }
@@ -542,7 +542,7 @@ async function replaceButtons(dir, pos) {
                         console.log(this.nClick + " and " + clipboard.readText())
                         clipboard.writeText(this.nClick)
                         this.stats = fs.statSync(this.nClick)
-                        document.getElementById("info").innerHTML = "Right Click a Channel to Copy it/display information. <br/><br/> File Path: " + this.nClick + "<br/><br/> File Size: " + this.stats.size*0.001 + " KB<br/><br/> Creation Time: " + this.stats.birthtime + "<br/><br/> Last Modified: " + this.stats.mtime + "<br/>"
+                        document.getElementById("info").innerHTML = "Right Click a Channel to Copy it/display information.<br/> File Path: " + this.nClick + "<br/><br/> File Size: " + this.stats.size*0.001 + " KB<br/><br/> Creation Time: " + this.stats.birthtime + "<br/><br/> Last Modified: " + this.stats.mtime + "<br/>"
                     }
                 }
             }
@@ -925,6 +925,65 @@ function fileChannelUI() {
     document.getElementById("buttons").appendChild(miiPic)
 }
 
+function musicChannelUI() {
+    musicBack = document.createElement('button')
+    musicBack.style.position = "absolute"
+    musicBack.className = "miiBack"
+    musicBack.innerHTML = "Back"
+    musicBack.onclick = function() {
+        while(oldNodes.firstChild)
+        {
+            oldNodes.removeChild(oldNodes.firstChild);
+        }
+        restoreWiiMenu()
+        try {
+            dir = fs.readdirSync(FileSystem.currentDirectory);
+            replaceButtons(dir, 0)
+    
+        } catch(err) {
+            return 1;
+        }
+
+    }
+    document.getElementById("buttons").appendChild(musicBack)
+
+    buttonTop = 160
+    for(i = 0; i < 6; i++)
+    {
+        songButton = document.createElement('button')
+        songButton.className = "songButton"
+        songButton.style.position = "absolute"
+        songButton.style.left = "20px"
+        songButton.style.top = (buttonTop) + "px"
+        if(i === 0)
+        {
+            songButton.innerHTML = "Wii Theme"
+        }
+        else if(i === 1)
+        {
+            songButton.innerHTML = "Mii Theme"
+        }
+        else if(i === 2)
+        {
+            songButton.innerHTML = "Wii Shop Theme"
+        }
+        else if(i === 3)
+        {
+            songButton.innerHTML = "Mii Theme Remix"
+        }
+        else if(i === 4)
+        {
+            songButton.innerHTML = "Mii Shop Theme Remix"
+        }
+        else
+        {
+            songButton.innerHTML = "Your Own Music"
+        }
+        document.getElementById("buttons").appendChild(songButton)
+        buttonTop += 52
+    }
+}
+
 //Creates the Fiile Channel
 function createImportantChannels() {
     fileChannel = document.createElement('button')
@@ -946,11 +1005,18 @@ function createImportantChannels() {
 
     dirChannel = document.createElement('button')
     dirChannel.style.position = "absolute"
-    dirChannel.className = "fileChannel"
+    dirChannel.className = "musicChannel"
     dirChannel.style.left = "275px"
     dirChannel.style.top = "5px"
     dirChannel.onclick = function() {
-        restoreWiiMenu()
+        clearCanvas()
+        oldNodes = document.getElementById("buttons")
+        while(oldNodes.firstChild)
+        {
+            oldNodes.removeChild(oldNodes.firstChild);
+        }
+        drawMusicChannel()
+        musicChannelUI()
     }
     document.getElementById("buttons").appendChild(dirChannel)
 }
