@@ -3,13 +3,13 @@ const { app, BrowserWindow } = require('electron')
 let win
 
 function createWindow () {
-  win = new BrowserWindow({ width: 1000, height: 600, resizable: false })
+  win = new BrowserWindow({ width: 1000, height: 600, resizable: false, icon: 'DesktopIcon.jpg' })
 
   win.setMenu(null)
 
   win.loadFile('index.html')
 
-  win.webContents.openDevTools()
+  //win.webContents.openDevTools()
 
   win.on('closed', () => {
     win = null
