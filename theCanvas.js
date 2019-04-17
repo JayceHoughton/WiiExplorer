@@ -31,6 +31,8 @@ buttonGrd.addColorStop(0.464, 'rgba(255, 255, 255, 1.000)');
 buttonGrd.addColorStop(1.000, 'rgba(229, 229, 229, 1.000)');
 
 //Drawing Functions
+
+//Function for creating a rounded rectangle using
 function roundedRectangle(x, y, width, height, radius, ctx) {
     ctx.save()
 
@@ -259,40 +261,4 @@ function drawMusicChannel() {
     ftx.font = "50px impact";
     ftx.fillText("MUSIC", 190, 90);
     
-
-
-    /*ftx.fillStyle = "rgba(0, 0, 0, 1)"
-    ftx.font = "20px monospace";
-    ftx.fillText("Create New Fii-le:", 30, 52);
-
-    //Directory UI
-
-    ftx.fillStyle = "rgb(211, 211, 211, 1)"
-    ftx.fillRect(0, 250, 300, 100)
-
-    ftx.arc(300, 300, 50, 0, 2 * Math.PI)
-    ftx.fill()
-
-
-    ftx.fillStyle = "rgba(0, 0, 0, 1)"
-    ftx.font = "20px monospace";
-    ftx.fillText("Create New Dii-rectory:", 30, 278);*/
 }
-
-
-//Drawing time on the menu
-//Commented out, will make the clock HTML
-/*function clock() {
-    date = new Date()
-    ctx.font = "60px Arial"
-    ctx.fillStyle = "#000000"
-    month = Number(date.getMonth()) + 1
-    year = date.getFullYear().toString().substr(2, 2)
-    dayArr = ["Sun", "Mon", "Tue", "Wed", "Thurs", "Fri", "Sat"]
-    dateString = dayArr[date.getDay()] + " " + month + "/" + year
-    ctx.fillText(dateString, 350, 380 + 100)
-    timeString = date.getHours() + ":" + date.getMinutes()
-    ctx.fillText(timeString, 450, 380 + 30)
-}
-clock()
-setInterval(clock, 1000)*/

@@ -6,21 +6,11 @@ const root = fs.readdirSync('/')
 const rimraf = require("rimraf")
 
 
-async function test() {
-    document.getElementById("test").innerHTML = root[0]
-    console.log(root)
-}
-
 //Object to keep track of File System variables
 let FileSystem = {
     currentDirectory: "0"
 };
 
-function sortDirectory(dir) {
-    dir.sort(function(a, b) {
-        return fs.statSync(dir + a).size - fs.statSync(dir + b).size
-    })
-}
 //Takes current director and the name of the directory you want to move to and joins them
 //Returns 1 if error/likely the directory doesn't exist or it isn't a directory
 function dirUp(currDir, whatDir) {
@@ -71,11 +61,13 @@ function baseDirectory() {
     }
 }
 
-//Temporary function potentially for creating buttons on page.
+//Function for creating the first Buttons on the app on statup
 function makeButtons(dir) {
 
+    //Creates the File Channel and the Music Channel before everything else
     createImportantChannels()
 
+    //Creates the Element for the info text section for displaying info about files
     fileInfo = document.createElement("P")
     fileInfo.style.position = "absolute"
     fileInfo.className = "infoText"
@@ -91,6 +83,7 @@ function makeButtons(dir) {
     }
     butLeft = 500;
     butTop = 5;
+    //Loop for creating buttons for the channels
     for(i = 0; i < lessThan; i++)
     {
         newDir = dir[i].toString()
@@ -103,6 +96,8 @@ function makeButtons(dir) {
         this.check = path.join(FileSystem.currentDirectory, this.rClick)
         this.check = path.resolve(this.check);
         this.check = path.normalize(this.check);
+
+        //Checks if dir entry is a file or directory and then uses that as a naming convention 
         try {
             if(fs.lstatSync(this.check).isDirectory())
             {
@@ -148,6 +143,8 @@ function makeButtons(dir) {
         }
         button.style.left = (butLeft) + "px"
         button.style.top = (butTop) + "px"
+
+        //Copies file path to clipboar when you click on a channel button
         button.onmousedown = function(event) {
             if(event.which === 3)
             {
@@ -170,6 +167,8 @@ function makeButtons(dir) {
     }
     butLeft = 53
     butTop = 5
+
+    //Puts background images static in all channels
     for(k = 0; k < 12; k++)
     {
         image = document.createElement("IMG")
@@ -198,11 +197,14 @@ function makeButtons(dir) {
         }
         document.getElementById("buttons").appendChild(button)
     }
+
+    //Below section creates all important buttons like paste and trash and cut.
     pasteButton = document.createElement('button')
     pasteButton.style.position = "absolute"
     pasteButton.className = "pasteButton"
     document.getElementById("buttons").appendChild(pasteButton)
 
+    //Prompts the user if they clikc the delete button, and deletes if they confirm they want to delete
     trashButton = document.createElement('button')
     trashButton.style.position = "absolute"
     trashButton.className = "trashButton"
@@ -274,6 +276,8 @@ function makeButtons(dir) {
     }
     document.getElementById("buttons").appendChild(trashButton)
 
+    //Nearly identical to deletion, but will instead of full deleting the file, it will delete it from its original
+    //location and then move it to a new location which is where the cut button is clicked
     cutButton = document.createElement('button')
     cutButton.style.position = "absolute"
     cutButton.className = "cutButton"
@@ -351,6 +355,9 @@ function makeButtons(dir) {
 }
 
 //Async function to place the buttons, waits for buttons to be made first
+//All relevant functions are functionally the same as the make Buttons function
+//Main difference is that it deletes the dom elements first before redrawing
+//It also takes position so that we know where to start looping through the directory
 async function replaceButtons(dir, pos) {
 
     if(dir === 1)
@@ -925,6 +932,7 @@ function fileChannelUI() {
     document.getElementById("buttons").appendChild(miiPic)
 }
 
+//Draws buttons for the music channel feature
 function musicChannelUI() {
     musicBack = document.createElement('button')
     musicBack.style.position = "absolute"
